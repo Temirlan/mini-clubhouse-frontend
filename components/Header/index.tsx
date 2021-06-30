@@ -4,8 +4,11 @@ import clsx from 'clsx';
 import Link from 'next/link';
 
 import styles from './Header.module.scss';
+import useUser from '../../hooks/useUser';
 
 export const Header: React.FC = () => {
+  const { user } = useUser();
+
   return (
     <div className={styles.header}>
       <div className="container d-flex align-items-center justify-content-between">
@@ -16,14 +19,10 @@ export const Header: React.FC = () => {
           </div>
         </Link>
 
-        <Link href="/profile/1">
+        <Link href={`/profile/${user?.id}`}>
           <div className="d-flex align-items-center cup">
-            <b className="mr-5">Ismagulov Temirlan</b>
-            <Avatar
-              src="http://www.gravatar.com/avatar/a16a38cdfe8b2cbd38e8a56ab93238d3'"
-              size="50px"
-              round
-            />
+            <b className="mr-5">{user?.fullname || 'New'}</b>
+            <Avatar src={user?.avatarUrl} size="50px" name={user?.fullname} round />
           </div>
         </Link>
       </div>
