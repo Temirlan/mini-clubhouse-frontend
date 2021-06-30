@@ -15,7 +15,7 @@ import { queryKeys } from './../../core/query-keys';
 
 const RoomsPage: NextPage = () => {
   const [isOpen, { setTrue, setFalse }] = useBoolean(false);
-  const { data: rooms } = useQuery(queryKeys.Rooms.rooms, RoomApi.getAll, { initialData: [] });
+  const { data: rooms = [] } = useQuery(queryKeys.Rooms.rooms, RoomApi.getAll);
 
   return (
     <MainLayout>

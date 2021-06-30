@@ -13,7 +13,7 @@ import { queryKeys } from './../../core/query-keys';
 
 const RoomPage: NextPage = () => {
   const router = useRouter();
-  const roomId = router.query.id;
+  const roomId = router.query.id as string;
   const { data: room } = useQuery(queryKeys.Room.get(+roomId), () => RoomApi.get(+roomId));
 
   return (
@@ -27,11 +27,12 @@ const RoomPage: NextPage = () => {
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const builderServerSideProps = new BuilderServerSideProps(ctx);
-
+  const roomId = ctx.params?.id;
   await builderServerSideProps.auth({
     redirectToLogin: true,
   });
-  await builderServerSideProps.room(+ctx.params.id);
+
+  roomId && (await builderServerSideProps.room(+roomId));
 
   return builderServerSideProps.finalPropsResult;
 };

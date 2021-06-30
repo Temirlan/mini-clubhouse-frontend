@@ -6,7 +6,7 @@ import { Button } from '../Button';
 import styles from './Room.module.scss';
 
 interface Props {
-  title: string;
+  title?: string;
 }
 
 export const Room: React.FC<Props> = ({ title }) => {
