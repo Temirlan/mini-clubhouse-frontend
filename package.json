@@ -1,0 +1,34 @@
+{
+  "name": "frontend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "swagger:download": "curl -o public/assets/swagger.json",
+    "swagger:generate": "npx swagger-typescript-api -p ./public/assets/swagger.json -o ./ -n api-types.ts"
+  },
+  "dependencies": {
+    "@types/cookie": "^0.4.0",
+    "ahooks": "^2.10.2",
+    "axios": "^0.21.1",
+    "clsx": "^1.1.1",
+    "cookie": "^0.4.1",
+    "js-cookie": "^2.2.1",
+    "next": "10.1.3",
+    "node-sass": "^5.0.0",
+    "query-string": "^7.0.0",
+    "react": "17.0.2",
+    "react-avatar": "^3.10.0",
+    "react-dom": "17.0.2",
+    "react-number-format": "^4.5.5",
+    "react-query": "^3.16.0",
+    "swagger-typescript-api": "^9.0.2"
+  },
+  "devDependencies": {
+    "@types/js-cookie": "^2.2.6",
+    "@types/react": "^17.0.3",
+    "typescript": "^4.2.4"
+  }
+}

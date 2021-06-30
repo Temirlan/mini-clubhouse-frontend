@@ -1,0 +1,53 @@
+.d-ib {
+  display: inline-block;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.d-inline-flex-all-center {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.d-inline-flex {
+  display: inline-flex;
+}
+
+.justify-content-between {
+  justify-content: space-between;
+}
+
+.justify-content-center {
+  justify-content: center;
+}
+
+.align-items-center {
+  align-items: center;
+}
+
+.align-self-start {
+  align-self: flex-start;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.flex-auto {
+  flex: 1 1 auto;
+}
+
+.m-auto {
+  margin: 0 auto;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.cup {
+  cursor: pointer;
+}

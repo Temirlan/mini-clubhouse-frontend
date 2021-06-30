@@ -1,0 +1,31 @@
+.block {
+  margin: 100px auto;
+  text-align: center;
+}
+
+.input {
+  position: relative;
+
+  img {
+    position: absolute;
+    top: 1.2rem;
+    left: 1.4rem;
+  }
+}
+
+.policyText {
+  color: gray;
+  font-size: 14px;
+  line-height: 24px;
+}
+
+.whiteBlock {
+  width: 460px;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+}

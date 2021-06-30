@@ -1,0 +1,103 @@
+[
+  {
+    "id": 1,
+    "avatars": [
+      "https://source.unsplash.com/random/100x100?1",
+      "https://source.unsplash.com/random/100x100?2"
+    ],
+    "guestsCount": 300,
+    "guests": ["Vasya", "Temir", "Alexey"],
+    "speakersCount": 10,
+    "title": "Commodo odio aenean sed adipiscing"
+  },
+  {
+    "id": 2,
+    "avatars": ["https://source.unsplash.com/random/100x100?3"],
+    "guestsCount": 300,
+    "guests": ["Vasya", "Temir", "Alexey"],
+    "speakersCount": 10,
+    "title": "Id cursus metus aliquam eleifend"
+  },
+  {
+    "id": 3,
+    "avatars": [
+      "https://source.unsplash.com/random/100x100?5",
+      "https://source.unsplash.com/random/100x100?6"
+    ],
+    "guestsCount": 300,
+    "guests": ["Vasya", "Temir", "Alexey"],
+    "speakersCount": 10,
+    "title": "vel orci porta non pulvinar"
+  },
+  {
+    "id": 4,
+    "avatars": [
+      "https://source.unsplash.com/random/100x100?7",
+      "https://source.unsplash.com/random/100x100?8"
+    ],
+    "guestsCount": 300,
+    "guests": ["Vasya", "Temir", "Alexey"],
+    "speakersCount": 10,
+    "title": "test"
+  },
+  {
+    "id": 5,
+    "avatars": [
+      "https://source.unsplash.com/random/100x100?1",
+      "https://source.unsplash.com/random/100x100?2"
+    ],
+    "guestsCount": 300,
+    "guests": ["Vasya", "Temir", "Alexey"],
+    "speakersCount": 10,
+    "title": "sed viverra ipsum nunc aliquet"
+  },
+  {
+    "id": 6,
+    "avatars": [
+      "https://source.unsplash.com/random/100x100?1",
+      "https://source.unsplash.com/random/100x100?2"
+    ],
+    "guestsCount": 300,
+    "guests": ["Vasya", "Temir", "Alexey"],
+    "speakersCount": 10,
+    "title": "test"
+  },
+  {
+    "id": 7,
+    "avatars": [
+      "https://source.unsplash.com/random/100x100?1",
+      "https://source.unsplash.com/random/100x100?2"
+    ],
+    "guestsCount": 300,
+    "guests": ["Vasya", "Temir", "Alexey"],
+    "speakersCount": 10,
+    "title": "accumsan lacus vel facilisis volutpat"
+  },
+  {
+    "id": 8,
+    "avatars": ["https://source.unsplash.com/random/100x100?1"],
+    "guestsCount": 109,
+    "guests": ["Vasya", "Temir", "Alexey"],
+    "speakersCount": 10,
+    "title": "test"
+  },
+  {
+    "id": 9,
+    "avatars": [
+      "https://source.unsplash.com/random/100x100?1",
+      "https://source.unsplash.com/random/100x100?2"
+    ],
+    "guestsCount": 300,
+    "guests": ["Vasya", "Temir", "Alexey"],
+    "speakersCount": 10,
+    "title": "test"
+  },
+  {
+    "id": 10,
+    "avatars": ["https://source.unsplash.com/random/100x100?1"],
+    "guestsCount": 300,
+    "guests": ["Vasya", "Temir", "Alexey"],
+    "speakersCount": 10,
+    "title": "sed egestas egestas fringilla phasellus"
+  }
+]

@@ -1,0 +1,56 @@
+.card {
+  padding: 30px 35px !important;
+  min-height: 170px !important;
+  // width: 380px !important;
+  box-sizing: border-box !important;
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+}
+
+.title {
+  margin: 0;
+  font-weight: bold;
+  font-size: 22px;
+  line-height: 30px;
+  width: 320px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.guests {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 5px 0;
+
+  li {
+    &:not(:first-child) {
+      margin-top: 5px;
+    }
+  }
+}
+
+.details {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+.listItem {
+  display: flex;
+  align-items: center;
+  font-weight: 700;
+  font-size: 12px;
+}
+
+.avatars {
+  align-self: flex-start;
+  position: relative;
+}
+
+.lastAvatar {
+  position: absolute;
+  left: 25%;
+  bottom: -25%;
+}
