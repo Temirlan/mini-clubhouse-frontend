@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { GetServerSideProps, NextPage } from 'next';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 
 import { Button } from '../../components/Button';
 import MainLayout from '../../layouts/MainLayout';
@@ -12,10 +12,24 @@ import { StartRoomModal } from '../../components/StartRoomModal';
 import { RoomApi } from './../../api/RoomApi';
 import BuilderServerSideProps from './../../core/builder-server-side-props';
 import { queryKeys } from './../../core/query-keys';
+import useSocket from './../../hooks/useSocket';
+import { Room } from '../../api-types';
 
 const RoomsPage: NextPage = () => {
   const [isOpen, { setTrue, setFalse }] = useBoolean(false);
   const { data: rooms = [] } = useQuery(queryKeys.Rooms.rooms, RoomApi.getAll);
+  const socket = useSocket();
+  const queryClient = useQueryClient();
+
+  React.useEffect(() => {
+    if (window !== undefined && socket) {
+      socket.on('SERVER@ROOMS:HOME', ({ speakers, roomId }) => {
+        queryClient.setQueryData('rooms', (rooms: Array<Room>) =>
+          rooms.map((r) => (r.id === roomId ? { ...r, speakers } : r)),
+        );
+      });
+    }
+  }, [socket]);
 
   return (
     <MainLayout>
