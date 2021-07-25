@@ -27,7 +27,7 @@ export const ConversationCard: React.FC<Room> = ({ title, speakers, listenersCou
             {speakers.map((speaker, i) => (
               <li className={clsx(styles.listItem)} key={speaker.id}>
                 {speaker.fullname}
-                <img className="ml-5" src={speaker.avatarUrl} alt="Cloud" width={14} height={14} />
+                {/* <img className="ml-5" src={speaker.avatarUrl} alt="Cloud" width={14} height={14} /> */}
               </li>
             ))}
           </ul>
