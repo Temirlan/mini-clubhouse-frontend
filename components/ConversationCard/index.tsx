@@ -12,22 +12,22 @@ export const ConversationCard: React.FC<Room> = ({ title, speakers, listenersCou
       <h4 className={styles.title}>{title}</h4>
       <div className={clsx('d-flex mt-10', styles.content)}>
         <div className={styles.avatars}>
-          {[].map((url, i) => (
+          {speakers.map((speaker, i) => (
             <Avatar
               round
               key={i}
               size="45px"
-              src={url}
-              className={[].length > 1 && i === [].length - 1 ? styles.lastAvatar : ''}
+              src={speaker.avatarUrl}
+              className={speakers.length > 1 && i === speakers.length - 1 ? styles.lastAvatar : ''}
             />
           ))}
         </div>
         <div className={clsx(styles.info, 'ml-30')}>
           <ul className={styles.guests}>
-            {speakers.map((name, i) => (
-              <li className={clsx(styles.listItem)} key={i}>
-                {name}
-                <img className="ml-5" src="/static/cloud.png" alt="Cloud" width={14} height={14} />
+            {speakers.map((speaker, i) => (
+              <li className={clsx(styles.listItem)} key={speaker.id}>
+                {speaker.fullname}
+                <img className="ml-5" src={speaker.avatarUrl} alt="Cloud" width={14} height={14} />
               </li>
             ))}
           </ul>
