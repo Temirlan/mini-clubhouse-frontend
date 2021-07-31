@@ -1,3 +1,14 @@
+# Mini clubhouse backend
+The project allows you to register via github,
+upload an avatar,
+log in via activation by code for a test,
+use 1234,
+create rooms,
+join a room via webrtc and sockets
+
+The package [simple-peer](https://github.com/feross/simple-peer) is used for webrtc.
+The implementation of the signaling server is done with [socket.io](https://socket.io/)
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
@@ -12,11 +23,15 @@ yarn dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+## Generate file api-types.ts
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+```
+npx swagger:download <url>
+```
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+```
+npx swagger:generate
+```
 
 ## Learn More
 
