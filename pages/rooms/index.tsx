@@ -23,7 +23,7 @@ const RoomsPage: NextPage = () => {
 
   React.useEffect(() => {
     if (window !== undefined && socket) {
-      socket.on('SERVER@ROOMS:HOME', ({ speakers, roomId }) => {
+      socket.on('rooms', ({ speakers, roomId }) => {
         queryClient.setQueryData('rooms', (rooms: Array<Room>) =>
           rooms.map((r) => (r.id === roomId ? { ...r, speakers } : r)),
         );

@@ -10,122 +10,100 @@ import useUser from '../../hooks/useUser';
 import { useRouter } from 'next/router';
 import useSocket from './../../hooks/useSocket';
 import Peer from 'simple-peer';
+import { Socket } from 'socket.io-client';
+import { DefaultEventsMap } from 'socket.io-client/build/typed-events';
 
 interface Props {
   title?: string;
 }
 
-let peers: Array<{
-  peer: Peer.Instance;
-  id: number;
-}> = [];
+const peers: Record<string, Peer.Instance> = {};
 
 export const Room: React.FC<Props> = ({ title }) => {
   const [speakers, setSpeakers] = React.useState<ISpeaker[]>([]);
   const { user } = useUser();
   const router = useRouter();
   const socket = useSocket();
-  const audioRef = React.useRef<HTMLAudioElement | null>(null);
+  const audiosRef = React.useRef<HTMLDivElement | null>(null);
   const roomId = router.query.id;
 
   React.useEffect(() => {
-    if (window !== undefined && socket && user) {
+    if (window !== undefined && socket && user && !speakers.find((s) => s.id === user.id)) {
       navigator.mediaDevices
         .getUserMedia({
           audio: true,
         })
         .then((stream) => {
-          if (!speakers.find((s) => s.id === user.id)) {
-            socket.emit('CLIENT@ROOMS:JOIN', {
-              user,
-              roomId,
-            });
-          }
-          socket.on('SERVER@ROOMS:JOIN', (joinedSpeakers) => {
-            const peerIncome = new Peer({
-              initiator: true,
+          socket.emit('client join to room', {
+            user,
+            roomId,
+          });
+
+          socket.on('speakers', (speakers) => setSpeakers(speakers));
+
+          socket.on('init connection receiver', (socketId) => {
+            addPeer(socketId, socket, {
+              initiator: false,
               trickle: false,
               stream,
             });
 
-            setSpeakers(joinedSpeakers);
+            socket.emit('create initiator peer', socketId);
+          });
 
-            joinedSpeakers.forEach((speaker) => {
-              const findExistPeer = peers.find((obj) => +obj.id === +speaker.id);
-
-              if (user.id !== speaker.id && !findExistPeer) {
-                peerIncome.on('signal', (signal) => {
-                  socket.emit('CLIENT@ROOMS:CALL', {
-                    targetUserId: speaker.id,
-                    callerUserId: user.id,
-                    roomId,
-                    signal,
-                  });
-
-                  peers.push({
-                    peer: peerIncome,
-                    id: speaker.id,
-                  });
-                });
-
-                socket.on(
-                  'SERVER@ROOMS:CALL',
-                  ({ targetUserId, callerUserId, signal: callerSignal }) => {
-                    const peerOutcome = new Peer({
-                      initiator: false,
-                      trickle: false,
-                      stream,
-                    });
-                    peerOutcome.signal(callerSignal);
-                    peerOutcome
-                      .on('signal', (outSignal) => {
-                        socket.emit('CLIENT@ROOMS:ANSWER', {
-                          targetUserId: callerUserId,
-                          callerUserId: targetUserId,
-                          roomId,
-                          signal: outSignal,
-                        });
-                      })
-                      .on('stream', (stream) => {
-                        if (audioRef.current) {
-                          audioRef.current.srcObject = stream;
-                          audioRef.current.play();
-                        }
-                      });
-                  },
-                );
-
-                socket.on('SERVER@ROOMS:ANSWER', ({ callerUserId, signal }) => {
-                  const obj = peers.find((obj) => +obj.id === +callerUserId);
-
-                  if (obj) {
-                    console.log('SERVER@ROOMS:ANSWER', signal);
-                    obj.peer.signal(signal);
-                  }
-                });
-              }
-            });
-
-            socket.on('SERVER@ROOMS:LEAVE', (leaveSpeaker: ISpeaker) => {
-              setSpeakers((prev) =>
-                prev.filter((prevSpeaker) => {
-                  const peerSpeaker = peers.find((obj) => +obj.id === +leaveSpeaker.id);
-
-                  if (peerSpeaker) {
-                    peerSpeaker.peer.destroy();
-                    // peers = peers.filter((p) => p.id !== peerSpeaker.id);
-
-                    if (audioRef.current) {
-                      audioRef.current.pause();
-                      // audioRef.current.srcObject = null;
-                    }
-                  }
-
-                  return prevSpeaker.id !== leaveSpeaker.id;
-                }),
-              );
+          socket.on('init connection sender', (socketId) => {
+            addPeer(socketId, socket, {
+              initiator: true,
+              trickle: false,
+              stream,
             });
           });
+
+          socket.on('user leave to room', ({ socketId, userId }) => {
+            removePeer(socketId);
+
+            setSpeakers((prev) => prev.filter((p) => p.id !== userId));
+          });
+
+          socket.on('signal', ({ socketId, signal }) => {
+            !peers[socketId].connected && peers[socketId].signal(signal);
+          });
+
+          function removePeer(socketId: string) {
+            const audioEl = document.getElementById(socketId) as HTMLAudioElement;
+
+            if (audioEl) {
+              audioEl.srcObject = null;
+              audiosRef.current?.removeChild(audioEl);
+            }
+
+            peers[socketId] && peers[socketId].destroy();
+            delete peers[socketId];
+          }
+
+          function addPeer(
+            socketId: string,
+            socket: Socket<DefaultEventsMap, DefaultEventsMap>,
+            peerOpts: Peer.Options,
+          ) {
+            peers[socketId] = new Peer(peerOpts);
+
+            peers[socketId].on('signal', (data) => {
+              socket.emit('signal', {
+                signal: data,
+                socketId,
+              });
+            });
+
+            peers[socketId].on('stream', (stream) => {
+              const newAudioElement = document.createElement('audio');
+              newAudioElement.srcObject = stream;
+              newAudioElement.id = socketId;
+              newAudioElement.autoplay = true;
+
+              audiosRef.current?.appendChild(newAudioElement);
+            });
+          }
         })
         .catch(() => {
           alert('No access to microphone.');
@@ -133,17 +111,16 @@ export const Room: React.FC<Props> = ({ title }) => {
     }
 
     return () => {
-      peers.forEach((obj) => {
-        obj.peer.destroy();
-      });
-
-      peers = [];
+      for (const socketId in peers) {
+        peers[socketId].destroy();
+      }
     };
   }, [socket, user]);
 
   return (
     <div className={styles.wrapper}>
-      <audio ref={audioRef} controls />
+      <div ref={audiosRef} className="audios"></div>
+
       <div className="d-flex align-items-center justify-content-between">
         <h2>{title}</h2>
         <div className={clsx('d-flex align-items-center', styles.actionButtons)}>
