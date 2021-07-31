@@ -9,10 +9,10 @@ import styles from './Profile.module.scss';
 import { BackButton } from '../BackButton';
 
 interface Props {
-  username: string;
+  username?: string;
   about: string;
-  fullname: string;
-  avatarUrl: string;
+  fullname?: string;
+  avatarUrl?: string;
 }
 
 export const Profile: React.FC<Props> = ({ fullname, username, about, avatarUrl }) => {

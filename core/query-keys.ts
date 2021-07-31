@@ -5,6 +5,9 @@ export const queryKeys = {
   Room: {
     get: (roomId: number) => `room-${roomId}`,
   },
+  User: {
+    get: (userId: number) => `user-${userId}`,
+  },
   Rooms: {
     rooms: 'rooms',
   },

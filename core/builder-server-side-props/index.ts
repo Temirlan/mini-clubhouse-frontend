@@ -4,6 +4,7 @@ import { dehydrate } from 'react-query/hydration';
 import AuthServerSideProps from './auth';
 import RoomServerSideProps from './room';
 import RoomsServerSideProps from './rooms';
+import ProfileServerSideProps from './profile';
 
 type Params = {
   redirectToLogin?: boolean;
@@ -20,6 +21,7 @@ export default class BuilderServerSideProps {
   authServerSideProps: AuthServerSideProps;
   roomServerSideProps: RoomServerSideProps;
   roomsServerSideProps: RoomsServerSideProps;
+  profileServerSideProps: ProfileServerSideProps;
 
   _finalPropsResult: FinalPropsResult = {
     props: {},
@@ -31,6 +33,7 @@ export default class BuilderServerSideProps {
     this.authServerSideProps = new AuthServerSideProps(ctx, this.queryClient);
     this.roomServerSideProps = new RoomServerSideProps(ctx, this.queryClient);
     this.roomsServerSideProps = new RoomsServerSideProps(ctx, this.queryClient);
+    this.profileServerSideProps = new ProfileServerSideProps(ctx, this.queryClient);
   }
 
   auth = async ({ overrideRedirect, ...restParams } = {} as Params) =>
@@ -40,6 +43,9 @@ export default class BuilderServerSideProps {
 
   room = async (roomId: number, overrideRedirect = false) =>
     this.addFinalProps(await this.roomServerSideProps.init(roomId), overrideRedirect);
+
+  profile = async (userId: number, overrideRedirect = false) =>
+    this.addFinalProps(await this.profileServerSideProps.init(userId), overrideRedirect);
 
   set finalPropsResult(props: FinalPropsResult) {
     this._finalPropsResult = props;

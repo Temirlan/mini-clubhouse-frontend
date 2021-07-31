@@ -35,7 +35,11 @@ export const Room: React.FC<Props> = ({ title }) => {
 
       <div className="speakers">
         {speakers.map((s) => (
-          <Speaker key={s.id} {...s} />
+          <Link href={`/profile/${s.id}`} key={s.id}>
+            <a>
+              <Speaker {...s} />
+            </a>
+          </Link>
         ))}
       </div>
     </div>

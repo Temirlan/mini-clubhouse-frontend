@@ -39,4 +39,9 @@ export const UserApi = {
 
     return data;
   },
+  getUser: async (userId: number) => {
+    const { data } = await axios.get<any, AxiosResponse<User>>(`/user/${userId}`);
+
+    return data;
+  },
 };
