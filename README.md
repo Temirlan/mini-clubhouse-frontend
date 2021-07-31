@@ -1,4 +1,4 @@
-# Mini clubhouse backend
+# Mini clubhouse frontend
 The project allows you to register via github,
 upload an avatar,
 log in via activation by code for a test,
